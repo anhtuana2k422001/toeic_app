@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }else{
                             progressDialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "hello" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng" , Toast.LENGTH_SHORT).show();
                         }
                  }
         });

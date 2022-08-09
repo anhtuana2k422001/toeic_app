@@ -29,6 +29,7 @@
     <string name="SignUp_titlePass">Nhập mật khẩu *</string>
     <string name="SignUp_titleConfPass">Nhập lại mật khẩu *</string>
     <string name="Login_ButtonGoogle">Đăng nhập với google</string>
+    <string name="Account_LogoutButton">Đăng Xuất</string>
 
 
 </resources>
