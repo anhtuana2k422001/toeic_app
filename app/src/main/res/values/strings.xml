@@ -18,7 +18,16 @@
     <string name="login_LoginButton">Đăng Nhập</string>
     <string name="login_TextNoAccount">Không có tài khoản ?</string>
     <string name="login_TextSingUpNow">Đăng ký ngay</string>
-
+    <string name="SignUp_Name">Họ tên</string>
+    <string name="SignUp_Email">Email</string>
+    <string name="SignUp_Pass">Mật khẩu</string>
+    <string name="SignUp_ConfimPass">Nhập lại mật khẩu</string>
+    <string name="SignUp_Button">Tiếp Tục</string>
+    <string name="SignUp_TextTittle">ĐĂNG KÝ</string>
+    <string name="SignUp_titleName">Nhập tên của bạn *</string>
+    <string name="SignUp_titleEmail">Địa chỉ Email *</string>
+    <string name="SignUp_titlePass">Nhập mật khẩu *</string>
+    <string name="SignUp_titleConfPass">Nhập lại mật khẩu *</string>
 
 
 </resources>

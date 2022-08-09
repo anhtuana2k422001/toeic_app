@@ -2,6 +2,7 @@ package com.example.toeic_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        singUpB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
    //  Kiêm tra nhập thông itn
@@ -41,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         if(password.getText().toString().isEmpty()){
-            email.setError("Vui lòng nhập mật khẩu");
+            password.setError("Vui lòng nhập mật khẩu");
             return false;
         }
         return true;
