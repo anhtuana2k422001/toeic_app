@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    // Set up color
+    <color name="PrimaryColor">#025A52</color>
+    <color name="GreenColor">#03A50A</color>
+
 </resources>

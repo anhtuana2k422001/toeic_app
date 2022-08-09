@@ -12,4 +12,13 @@
     <string name="menu_slideshow">Slideshow</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Đây là trang luyện tập</string>
+    <string name="login_HintEmail">Email ID</string>
+    <string name="login_HintPassword">Password</string>
+    <string name="login_ForgotPassword">Quên mật khẩu ?</string>
+    <string name="login_LoginButton">Đăng Nhập</string>
+    <string name="login_TextNoAccount">Không có tài khoản ?</string>
+    <string name="login_TextSingUpNow">Đăng ký ngay</string>
+
+
+
 </resources>
