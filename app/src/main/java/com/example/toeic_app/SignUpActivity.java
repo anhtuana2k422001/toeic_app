@@ -3,12 +3,15 @@ package com.example.toeic_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +25,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ImageView backB;
     private FirebaseAuth mAuth;
     private String emailStr, passStr, confirmPassStr, nameStr;
+    private Dialog progressDialog;
+    private TextView dialogText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPass = findViewById(R.id.confirm_pass);
         signUpButton = findViewById(R.id.singUpB);
         backB = findViewById(R.id.backB);
+
+        progressDialog = new Dialog(SignUpActivity.this);
+        progressDialog.setContentView(R.layout.dialog_layout);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT );
+        dialogText = progressDialog.findViewById(R.id.dialog_text);
+        dialogText.setText("Đang tạo tài khoản ....");
+
 
         mAuth = FirebaseAuth.getInstance(); // Khởi tạo
 
@@ -87,16 +100,19 @@ public class SignUpActivity extends AppCompatActivity {
 
     // Hàm đăng ký tài khoản với Fire Base
     private  void SignNewUser(){
+        progressDialog.show();
         mAuth.createUserWithEmailAndPassword(emailStr, passStr)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     startActivity(intent);
                     SignUpActivity.this.finish();
                 }else{
+                    progressDialog.dismiss();
                     Toast.makeText(SignUpActivity.this, "Email hoặc mật khẩu không đúng định dạng ", Toast.LENGTH_SHORT).show();
                 }
             }

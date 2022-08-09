@@ -3,13 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background_load"
+    android:background="@drawable/gradient_background_2"
     tools:context=".AccountFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/PrimaryColor"
         android:text="Đây là trang tài khoản" />
 
 </FrameLayout>

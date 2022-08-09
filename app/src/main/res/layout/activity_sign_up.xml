@@ -37,7 +37,6 @@
             android:background="@drawable/logo_transparent"
             tools:ignore="ContentDescription" />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +56,7 @@
             android:gravity="center"
             android:textColor="#085860"
             android:layout_gravity="center"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_height="wrap_content"/>
 
         <TextView

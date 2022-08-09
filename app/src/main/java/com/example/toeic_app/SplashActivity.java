@@ -11,11 +11,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-
     private TextView appNameLoad;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class SplashActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.myanim);
         appNameLoad.setAnimation(animation);
 
+        mAuth = FirebaseAuth.getInstance(); // Khởi tạo
+
         new Thread(){
             @Override
             public void run(){
@@ -41,10 +45,19 @@ public class SplashActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // Di chuyển vào main
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                SplashActivity.this.finish();
+                // Nêu hệ thống đã đăng nhập trước đó thì vào main chính không thì bắt đăng nhập lại
+                if(mAuth.getCurrentUser() != null){
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }else{
+                    // Di chuyển vào main
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }
+
+
 
             }
         }.start();
