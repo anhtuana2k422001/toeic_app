@@ -1,6 +1,7 @@
 package com.example.toeic_app;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,15 @@ import java.util.List;
 
 public class CategoryAdapter extends BaseAdapter {
 
-    private List<CategoryModel> catList;
+    private List<CategoryModel> cat_List;
 
     public CategoryAdapter(List<CategoryModel> catList) {
-        this.catList = catList;
+        this.cat_List = catList;
     }
 
     @Override
     public int getCount() {
-        return catList.size();
+        return cat_List.size();
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         View myView;
         if(view==null){
             myView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cat_item_layout, viewGroup, false);
@@ -42,12 +43,20 @@ public class CategoryAdapter extends BaseAdapter {
             myView = view;
         }
 
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), TestActivity.class);
+                intent.putExtra("CAT_INDEX", i);
+                view.getContext().startActivity(intent);
+            }
+        });
+
         TextView catName = myView.findViewById(R.id.catName);
         TextView noOfTests = myView.findViewById(R.id.no_of_tests);
 
-        catName.setText(catList.get(i).getName());
-        noOfTests.setText(String.valueOf(catList.get(i).getNoOfTests()) + " câu hỏi");
-
+        catName.setText(cat_List.get(i).getName());
+        noOfTests.setText(String.valueOf(cat_List.get(i).getNoOfTests()) + " câu hỏi");
 
         return myView;
     }

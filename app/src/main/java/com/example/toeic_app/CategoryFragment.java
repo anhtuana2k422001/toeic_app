@@ -18,7 +18,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private GridView catView;
-    private List<CategoryModel> catList  = new ArrayList<>();
+    public static List<CategoryModel> catList  = new ArrayList<>();
 
 
     @Override
