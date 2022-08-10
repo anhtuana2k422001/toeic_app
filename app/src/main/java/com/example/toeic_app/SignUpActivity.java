@@ -101,19 +101,37 @@ public class SignUpActivity extends AppCompatActivity {
     // Hàm đăng ký tài khoản với Fire Base
     private  void SignNewUser(){
         progressDialog.show();
+
         mAuth.createUserWithEmailAndPassword(emailStr, passStr)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+
                     Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    SignUpActivity.this.finish();
+
+                    // Lưu thông tin vào FireBase
+                    DbQuery.createUserData(emailStr, nameStr, new MyCompleteListener(){
+
+                        @Override
+                        public void onSuccess() {
+                            progressDialog.dismiss(); // Hiện chờ đang nhập
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            SignUpActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            progressDialog.dismiss();
+                            Toast.makeText(SignUpActivity.this, "Tạo tài khoản không thành công. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
                 }else{
                     progressDialog.dismiss();
-                    Toast.makeText(SignUpActivity.this, "Email hoặc mật khẩu không đúng định dạng ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Tài khoản đã được sử dụng", Toast.LENGTH_SHORT).show();
                 }
             }
         });
