@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,8 +23,9 @@ import java.util.Objects;
 
 public class DbQuery {
     public static FirebaseFirestore g_firestore;
-    public static List<CategoryModel>  g_catList = new ArrayList<>();
-
+    public static List<CategoryModel>  g_catList = new ArrayList<>();    // khai báo list danh mục
+    public static int g_selected_cat_index = 0; // lấy danh mục chọn
+    public static List<TestModel> g_testlist = new ArrayList<>(); // Khai báo list test
 
     // Lư thông tin userData vào FireBase
     public static void createUserData(String email,String name, MyCompleteListener myCompleteListener){
@@ -84,6 +86,34 @@ public class DbQuery {
 
                         completeListener.onSuccess();
 
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+    }
+
+    public static void loadTestData(final  MyCompleteListener completeListener){
+        g_testlist.clear();
+        g_firestore.collection("quiz").document(g_catList.get(g_selected_cat_index).getDocID())
+                .collection("tests_list").document("tests_info")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        int noOfTests = g_catList.get(g_selected_cat_index).getNoOfTests();
+                        for(int i =1; i <= noOfTests; i++ ){
+                            g_testlist.add(new TestModel(
+                                    documentSnapshot.getString("test" + String.valueOf(i) + "_id"
+                                    ), 0, documentSnapshot.getLong("test" + String.valueOf(i) + "_time").intValue()
+                            ));
+
+                        }
+
+                        completeListener.onSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

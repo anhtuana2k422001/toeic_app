@@ -46,8 +46,10 @@ public class CategoryAdapter extends BaseAdapter {
         myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //lấy index danh mục người đùng chọn vào trả về giao diện con
+                DbQuery.g_selected_cat_index = i;
                 Intent intent = new Intent(view.getContext(), TestActivity.class);
-                intent.putExtra("CAT_INDEX", i);
                 view.getContext().startActivity(intent);
             }
         });
@@ -56,7 +58,7 @@ public class CategoryAdapter extends BaseAdapter {
         TextView noOfTests = myView.findViewById(R.id.no_of_tests);
 
         catName.setText(cat_List.get(i).getName());
-        noOfTests.setText(String.valueOf(cat_List.get(i).getNoOfTests()) + " câu hỏi");
+        noOfTests.setText(String.valueOf(cat_List.get(i).getNoOfTests()) + " bài");
 
         return myView;
     }

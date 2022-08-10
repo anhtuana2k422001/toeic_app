@@ -6,8 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,10 @@ import java.util.List;
 public class TestActivity extends AppCompatActivity {
     private RecyclerView testView;
     private Toolbar toolbar;
-    private List<TestModel> testlist;
+    private TestAdapter testAdapter;
+    private Dialog progressDialog;
+    private TextView dialogText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +35,19 @@ public class TestActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        int cat_index = getIntent().getIntExtra("CAT_INDEX", 0);
-        getSupportActionBar().setTitle(DbQuery.g_catList.get(cat_index).getName());
+        getSupportActionBar().setTitle(DbQuery.g_catList.get(DbQuery.g_selected_cat_index).getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         testView = findViewById(R.id.test_recycler_view);
+
+        // Tạo animaion progressDialog chờ
+        progressDialog = new Dialog(TestActivity.this);
+        progressDialog.setContentView(R.layout.dialog_layout);
+        progressDialog.setCancelable(false);
+        progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT );
+        dialogText = progressDialog.findViewById(R.id.dialog_text);
+        dialogText.setText("Loading ...");
+        progressDialog.show();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -40,21 +55,25 @@ public class TestActivity extends AppCompatActivity {
 
 
         // load bài test
-        loadTestData();
+        //loadTestData();
 
-        TestAdapter testAdapter = new TestAdapter(testlist);
-        testView.setAdapter(testAdapter);
+        DbQuery.loadTestData(new MyCompleteListener() {
+            @Override
+            public void onSuccess() {
+                testAdapter = new TestAdapter(DbQuery.g_testlist);
+                testView.setAdapter(testAdapter);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure() {
+                progressDialog.dismiss();
+                Toast.makeText(TestActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
-
-    private void loadTestData() {
-        testlist = new ArrayList<>();
-        testlist.add(new TestModel("1", 70, 40));
-        testlist.add(new TestModel("2", 40, 28));
-        testlist.add(new TestModel("3", 80, 27));
-        testlist.add(new TestModel("4", 10, 30));
-    }
-
 
     // Dừng activy đang selected ==> Quay lại
     @Override

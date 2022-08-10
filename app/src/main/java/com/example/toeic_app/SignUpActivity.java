@@ -129,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure() {
                                     progressDialog.dismiss();
-                                    Toast.makeText(SignUpActivity.this, "Tạo tài khoản không thành công. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại !", Toast.LENGTH_SHORT).show();
                                 }
                             });
 

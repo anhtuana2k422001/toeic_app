@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT );
         dialogText = progressDialog.findViewById(R.id.dialog_text);
-        dialogText.setText("Đang đăng nhập ....");
+        dialogText.setText("Đang đăng nhập ...");
 
         mAuth = FirebaseAuth.getInstance(); // Khởi tạo
 
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure() {
                                     progressDialog.dismiss();
-                                    Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại !" , Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure() {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại !" , Toast.LENGTH_SHORT).show();
                                             }
                                         });
 
@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure() {
                                         progressDialog.dismiss();
-                                        Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại !" , Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
