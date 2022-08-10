@@ -116,10 +116,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+
+                            // load danh mục khi đăng nhập thành công
+                            DbQuery.loadCategories(new MyCompleteListener() {
+                                @Override
+                                public void onSuccess() {
+                                    progressDialog.dismiss();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
                         }else{
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng" , Toast.LENGTH_SHORT).show();
@@ -167,10 +182,61 @@ public class LoginActivity extends AppCompatActivity {
                             // Người dùng hiện tại
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            progressDialog.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            LoginActivity.this.finish();
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                DbQuery.createUserData(user.getEmail(), user.getDisplayName(), new MyCompleteListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        // load danh mục
+                                        DbQuery.loadCategories(new MyCompleteListener() {
+                                            @Override
+                                            public void onSuccess() {
+                                                progressDialog.dismiss();
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                LoginActivity.this.finish();
+                                            }
+
+                                            @Override
+                                            public void onFailure() {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        progressDialog.dismiss();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure() {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }else{
+
+                                // load danh mục
+                                DbQuery.loadCategories(new MyCompleteListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        progressDialog.dismiss();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        LoginActivity.this.finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure() {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(LoginActivity.this, "Đăng  nhập không thành công, vui lòng thỬ lại" , Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
 
                         } else {
                             progressDialog.dismiss();

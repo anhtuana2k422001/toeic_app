@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -52,9 +53,21 @@ public class SplashActivity extends AppCompatActivity {
 
                 // Nêu hệ thống đã đăng nhập trước đó thì vào main chính không thì bắt đăng nhập lại
                 if(mAuth.getCurrentUser() != null){
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    SplashActivity.this.finish();
+
+                    DbQuery.loadCategories(new MyCompleteListener() {
+                        @Override
+                        public void onSuccess() {
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            SplashActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(SplashActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại !", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                 }else{
                     // Di chuyển vào main
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);

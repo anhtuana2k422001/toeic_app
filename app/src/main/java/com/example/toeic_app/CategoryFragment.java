@@ -18,7 +18,6 @@ public class CategoryFragment extends Fragment {
     }
 
     private GridView catView;
-    public static List<CategoryModel> catList  = new ArrayList<>();
 
 
     @Override
@@ -27,21 +26,13 @@ public class CategoryFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_category, container, false);
 
         catView = view.findViewById(R.id.card_Gird);
-        loadCategories();
 
-        CategoryAdapter adapter = new CategoryAdapter(catList);
+       // loadCategories();
+
+        CategoryAdapter adapter = new CategoryAdapter(DbQuery.g_catList);
         catView.setAdapter(adapter);
 
         return view;
-    }
-
-    private void loadCategories(){
-        catList.clear();
-        catList.add(new CategoryModel("1", "Cloze Text", 20));
-        catList.add(new CategoryModel("2", "Reading", 40));
-        catList.add(new CategoryModel("3", "Listening", 15));
-        catList.add(new CategoryModel("4", "Sign", 20));
-        catList.add(new CategoryModel("5", "Test", 10));
     }
 
 

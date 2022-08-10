@@ -115,6 +115,24 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess() {
+
+                            // load danh mục sau khi đăng ký thành công
+                            DbQuery.loadCategories(new MyCompleteListener() {
+                                @Override
+                                public void onSuccess() {
+                                    progressDialog.dismiss();
+                                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    SignUpActivity.this.finish();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(SignUpActivity.this, "Tạo tài khoản không thành công. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                             progressDialog.dismiss(); // Hiện chờ đang nhập
                             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(intent);

@@ -29,7 +29,7 @@ public class TestActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         int cat_index = getIntent().getIntExtra("CAT_INDEX", 0);
-        getSupportActionBar().setTitle(CategoryFragment.catList.get(cat_index).getName());
+        getSupportActionBar().setTitle(DbQuery.g_catList.get(cat_index).getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         testView = findViewById(R.id.test_recycler_view);
@@ -54,6 +54,7 @@ public class TestActivity extends AppCompatActivity {
         testlist.add(new TestModel("3", 80, 27));
         testlist.add(new TestModel("4", 10, 30));
     }
+
 
     // Dừng activy đang selected ==> Quay lại
     @Override
