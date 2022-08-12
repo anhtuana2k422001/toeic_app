@@ -1,5 +1,6 @@
 package com.example.toeic_app;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,15 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHoder> {
             testNo = itemView.findViewById(R.id.testNo);
             topScore = itemView.findViewById(R.id.scoreText);
             progressBar = itemView.findViewById(R.id.testProgressBar);
+
+            // Chạy giao diện câu hỏi của mỗi part trong danh mục đó
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), QuestionsActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
 
         }
 
