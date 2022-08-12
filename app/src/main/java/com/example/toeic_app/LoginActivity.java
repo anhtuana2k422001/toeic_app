@@ -117,8 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
-                            // load danh mục khi đăng nhập thành công
-                            DbQuery.loadCategories(new MyCompleteListener() {
+                            // load data
+                            DbQuery.loadData(new MyCompleteListener() {
                                 @Override
                                 public void onSuccess() {
                                     progressDialog.dismiss();
@@ -187,8 +187,8 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess() {
 
-                                        // load danh mục
-                                        DbQuery.loadCategories(new MyCompleteListener() {
+                                        // load data
+                                        DbQuery.loadData(new MyCompleteListener() {
                                             @Override
                                             public void onSuccess() {
                                                 progressDialog.dismiss();
@@ -219,8 +219,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             }else{
 
-                                // load danh mục
-                                DbQuery.loadCategories(new MyCompleteListener() {
+                                // load Data
+                                DbQuery.loadData(new MyCompleteListener() {
                                     @Override
                                     public void onSuccess() {
                                         progressDialog.dismiss();

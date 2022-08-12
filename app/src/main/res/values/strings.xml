@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Luyện Thi TOEIC TLD</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -30,6 +30,9 @@
     <string name="SignUp_titleConfPass">Nhập lại mật khẩu *</string>
     <string name="Login_ButtonGoogle">Đăng nhập với google</string>
     <string name="Account_LogoutButton">Đăng Xuất</string>
+    <string name="drawer_Practis">Luyện tâp</string>
+    <string name="drawer_Account">Thống kê</string>
+    <string name="drawer_LeaderBroad">Tài khoản</string>
 
 
 </resources>

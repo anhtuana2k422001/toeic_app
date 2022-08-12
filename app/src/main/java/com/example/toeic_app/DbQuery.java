@@ -26,6 +26,8 @@ public class DbQuery {
     public static List<CategoryModel>  g_catList = new ArrayList<>();    // khai báo list danh mục
     public static int g_selected_cat_index = 0; // lấy danh mục chọn
     public static List<TestModel> g_testlist = new ArrayList<>(); // Khai báo list test
+    public static  ProfileModel myProfile = new ProfileModel("TLD", "null");
+
 
     // Lư thông tin userData vào FireBase
     public static void createUserData(String email,String name, MyCompleteListener myCompleteListener){
@@ -60,6 +62,27 @@ public class DbQuery {
                 });
     }
 
+    // Lấy thông tin user
+    public static void getUserData(final  MyCompleteListener completeListener){
+        g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        myProfile.setName(documentSnapshot.getString("name"));
+                        myProfile.setEmail(documentSnapshot.getString("email_id)"));
+
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+
+    }
 
     // Load tất cả các danh mục lên giao diện
     public static void loadCategories(MyCompleteListener completeListener){
@@ -96,6 +119,7 @@ public class DbQuery {
                 });
     }
 
+    //  Load tất các các bài trong danh mục
     public static void loadTestData(final  MyCompleteListener completeListener){
         g_testlist.clear();
         g_firestore.collection("quiz").document(g_catList.get(g_selected_cat_index).getDocID())
@@ -122,6 +146,22 @@ public class DbQuery {
                         completeListener.onFailure();
                     }
                 });
+    }
+
+    // load thông tin user
+    public static void loadData(MyCompleteListener completeListener){
+        loadCategories(new MyCompleteListener() {
+            @Override
+            public void onSuccess() {
+                getUserData(completeListener);
+            }
+
+            @Override
+            public void onFailure() {
+                completeListener.onFailure();
+            }
+        });
+
     }
 
 }

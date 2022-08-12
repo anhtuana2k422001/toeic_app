@@ -6,12 +6,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -23,13 +25,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.toeic_app.databinding.ActivityMainBinding;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private TextView drawerProfileName, drawerProfileText;
+
 
     private View main_frame; // là một Frament
-
+    public  DrawerLayout mDrawer;
     // Code khai báo ở ây
     private BottomNavigationView bottomNavigationView;
     private  BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
@@ -39,18 +45,22 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch(item.getItemId()){
                         case R.id.nav_home :
-                            setFragment(new CategoryFragment());
+                            //bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                           setFragment(new CategoryFragment());
                             return true;
                         case R.id.nav_leaderboard:
+                            //bottomNavigationView.setSelectedItemId(R.id.nav_leaderboard);
                             setFragment(new LeaderBoardFragment() );
                             return true;
                         case R.id.nav_account:
+                            //bottomNavigationView.setSelectedItemId(R.id.nav_account);
                             setFragment(new AccountFragment());
                             return true;
                     }
                     return false;
                 }
             };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,26 +74,74 @@ public class MainActivity extends AppCompatActivity {
         // Code ở đây
         bottomNavigationView = findViewById(R.id.bottom_nav_bar);
         main_frame = findViewById(R.id.nav_host_fragment_content_main);
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
-        DrawerLayout drawer = binding.drawerLayout;
+        mDrawer = findViewById(R.id.drawer_layout);
+       // DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
 
+        // Code sẵn
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
+                R.id.nav_home, R.id.nav_leaderboard, R.id.nav_account)
+                .setOpenableLayout(mDrawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        setFragment(new CategoryFragment());
+        setupDrawerContent(navigationView);
+        // Sét thông tin người dùng
+        drawerProfileName = navigationView.getHeaderView(0).findViewById(R.id.nav_drawer_name);
+        drawerProfileText = navigationView.getHeaderView(0).findViewById(R.id.nav_drawer_text_img);
+        String name = DbQuery.myProfile.getName();
+        drawerProfileName.setText(name);
+        drawerProfileText.setText(name.toUpperCase().substring(0,1));
 
+        setFragment(new CategoryFragment());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home) {
+            mDrawer.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Hàm lăng nghe ---> điều hướng
+    public void setupDrawerContent(NavigationView navigationView){
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                selectDrawerItem(item);
+                return true;
+            }
+        });
+    }
+
+    // Lắng nghe drawer để load fragment tương ứng
+    @SuppressLint("NonConstantResourceId")
+    public void selectDrawerItem(MenuItem menuItem){
+        Fragment fragment;
+        switch (menuItem.getItemId()){
+            case R.id.nav_leaderboard:
+                setFragment(new LeaderBoardFragment() );
+                bottomNavigationView.setSelectedItemId(R.id.nav_leaderboard);
+                break;
+            case R.id.nav_account:
+                setFragment(new AccountFragment());
+                bottomNavigationView.setSelectedItemId(R.id.nav_account);
+                break;
+            default:
+                fragment = new CategoryFragment();
+                bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                setFragment(fragment);
+        }
+        mDrawer.closeDrawers();
+
+    }
 
     // Bấm vào menu
     @Override
@@ -99,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(main_frame.getId(), fragment); // Thay thế fragment người dùng khi chọn
         transaction.commit(); //Chạy
     }
-
 
 
     /* Tắt menu options*/

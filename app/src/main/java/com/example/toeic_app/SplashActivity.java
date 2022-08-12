@@ -54,7 +54,9 @@ public class SplashActivity extends AppCompatActivity {
                 // Nêu hệ thống đã đăng nhập trước đó thì vào main chính không thì bắt đăng nhập lại
                 if(mAuth.getCurrentUser() != null){
 
-                    DbQuery.loadCategories(new MyCompleteListener() {
+
+                    // load dữ liệu data
+                    DbQuery.loadData(new MyCompleteListener() {
                         @Override
                         public void onSuccess() {
                             Intent intent = new Intent(SplashActivity.this, MainActivity.class);

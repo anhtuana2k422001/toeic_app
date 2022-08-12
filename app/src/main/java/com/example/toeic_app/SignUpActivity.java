@@ -116,8 +116,8 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
 
-                            // load danh mục sau khi đăng ký thành công
-                            DbQuery.loadCategories(new MyCompleteListener() {
+                            // load thông tin dữ liệu data
+                            DbQuery.loadData(new MyCompleteListener() {
                                 @Override
                                 public void onSuccess() {
                                     progressDialog.dismiss();
