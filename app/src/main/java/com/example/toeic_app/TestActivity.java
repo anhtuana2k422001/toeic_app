@@ -71,8 +71,6 @@ public class TestActivity extends AppCompatActivity {
                 Toast.makeText(TestActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     // Dừng activy đang selected ==> Quay lại
