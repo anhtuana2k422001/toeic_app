@@ -2,7 +2,6 @@ package com.example.toeic_app;
 
 import static com.example.toeic_app.DbQuery.LoadQuestions;
 import static com.example.toeic_app.DbQuery.g_catList;
-//import static com.example.toeic_app.DbQuery.loadQuestions;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,19 +38,6 @@ public class StartTestActivity extends AppCompatActivity {
         dialogText.setText("Loading ...");
         progressDialog.show();
 
-//        loadQuestions(new MyCompleteListener() {
-//            @Override
-//            public void onSuccess() {
-//                setData();
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                progressDialog.dismiss();
-//                Toast.makeText(StartTestActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         LoadQuestions(new MyCompleteListener() {
             @Override

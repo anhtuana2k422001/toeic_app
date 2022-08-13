@@ -29,7 +29,8 @@
             android:textColor="@color/white"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -142,6 +143,8 @@
             android:background="@color/blue"
             tools:ignore="ContentDescription,RtlHardcoded" />
     </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -150,8 +153,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearlayout3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/linearlayout4">
-
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout4">
     </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

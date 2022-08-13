@@ -113,7 +113,6 @@ public class DbQuery {
                         }
 
                         completeListener.onSuccess();
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -139,9 +138,7 @@ public class DbQuery {
                                     documentSnapshot.getString("test" + String.valueOf(i) + "_id"
                                     ), 0, documentSnapshot.getLong("test" + String.valueOf(i) + "_time").intValue()
                             ));
-
                         }
-
                         completeListener.onSuccess();
                     }
                 })
@@ -153,38 +150,6 @@ public class DbQuery {
                 });
     }
 
-    // Load câu hỏi
-//    public static void loadQuestions(MyCompleteListener completeListener){
-//        g_quesList.clear();
-//        g_firestore.collection("question")
-//                .whereEqualTo("category", g_catList.get(g_selected_cat_index).getDocID())
-//                .whereEqualTo("test", g_testlist.get(g_selected_test_index).getTestID())
-//                .get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//
-//                        for (DocumentSnapshot doc : queryDocumentSnapshots){
-//                            g_quesList.add(new QuestionModel(
-//                                    doc.getString("question"),
-//                                    doc.getString("A"),
-//                                    doc.getString("B"),
-//                                    doc.getString("C"),
-//                                    doc.getString("D"),
-//                                    doc.getLong("answer").intValue()
-//                            ));
-//                        }
-//
-//                        completeListener.onSuccess();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        completeListener.onFailure();;
-//                    }
-//                });
-//    }
 
     // Lấy thông tin câu hỏi
     public static void LoadQuestions(MyCompleteListener myCompleteListener){

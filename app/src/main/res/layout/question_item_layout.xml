@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_question"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="Question No 1"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:scrollbars="vertical"
+        android:background="@color/white"
+        android:inputType="textImeMultiLine"
+        android:elevation="5dp"
+        android:translationZ="3dp"
+        tools:ignore="HardcodedText,InefficientWeight,TextViewEdits" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/optionA"
+        android:layout_margin="8dp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:stateListAnimator="@null"
+        android:text="ption A"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:translationZ="3dp"
+        tools:ignore="HardcodedText" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/optionB"
+        android:layout_margin="8dp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:stateListAnimator="@null"
+        android:text="ption B"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:translationZ="3dp"
+        tools:ignore="HardcodedText" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/optionC"
+        android:layout_margin="8dp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:stateListAnimator="@null"
+        android:text="ption C"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:translationZ="3dp"
+        tools:ignore="HardcodedText" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/optionD"
+        android:layout_margin="8dp"
+        android:background="@drawable/unselected_btn"
+        android:elevation="3dp"
+        android:stateListAnimator="@null"
+        android:text="ption D"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:translationZ="3dp"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
