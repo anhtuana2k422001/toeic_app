@@ -1,4 +1,4 @@
-package com.example.toeic_app;
+package com.example.toeic_app.Adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.toeic_app.DbQuery;
+import com.example.toeic_app.Models.TestModel;
+import com.example.toeic_app.R;
+import com.example.toeic_app.StartTestActivity;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.toeic_app;
+package com.example.toeic_app.Models;
 
 public class QuestionModel {
     private String question;

@@ -1,4 +1,4 @@
-package com.example.toeic_app;
+package com.example.toeic_app.Adapters;
 import static com.example.toeic_app.DbQuery.ANSWERED;
 import static com.example.toeic_app.DbQuery.NOT_VISITED;
 import static com.example.toeic_app.DbQuery.REVIEW;

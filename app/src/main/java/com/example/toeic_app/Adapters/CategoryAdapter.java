@@ -1,4 +1,4 @@
-package com.example.toeic_app;
+package com.example.toeic_app.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.toeic_app.DbQuery;
+import com.example.toeic_app.Models.CategoryModel;
+import com.example.toeic_app.R;
+import com.example.toeic_app.TestActivity;
 
 import java.util.List;
 

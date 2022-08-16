@@ -31,6 +31,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.toeic_app.Adapters.QuestionGridAdapter;
+import com.example.toeic_app.Adapters.QuestionsAdapter;
+
 import java.util.concurrent.TimeUnit;
 
 public class QuestionsActivity extends AppCompatActivity {
@@ -47,6 +50,7 @@ public class QuestionsActivity extends AppCompatActivity {
     private ImageView markImage;
     private QuestionGridAdapter gridAdapter;
     private CountDownTimer timer;
+    private long timeLeft;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -241,8 +245,8 @@ public class QuestionsActivity extends AppCompatActivity {
                 timer.cancel();
                 alertDialog.dismiss();
                 Intent intent=new Intent(QuestionsActivity.this, ScoreActivity.class);
-//                long totalTime = g_testlist.get(g_selected_test_index).getTime()*60*1000;
-//                intent.putExtra("TIME_TAKEN",totalTime-timeLeft);
+                long totalTime = (long) g_testlist.get(g_selected_test_index).getTime() *60*1000;
+                intent.putExtra("TIME_TAKEN",totalTime-timeLeft);
                 startActivity(intent);
                 QuestionsActivity.this.finish();
             }
@@ -258,6 +262,7 @@ public class QuestionsActivity extends AppCompatActivity {
         {
             @Override
             public void onTick(long remainingTime) {
+                timeLeft = remainingTime;
                 @SuppressLint("DefaultLocale") String time=String.format("%02d:%02d min",
                         TimeUnit.MILLISECONDS.toMinutes(remainingTime),
                         TimeUnit.MILLISECONDS.toSeconds(remainingTime)-
@@ -270,6 +275,8 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 Intent intent=new Intent(QuestionsActivity.this, ScoreActivity.class);
+                long totalTime = (long) g_testlist.get(g_selected_test_index).getTime() *60*1000;
+                intent.putExtra("TIME_TAKEN",totalTime-timeLeft);
                 startActivity(intent);
                 QuestionsActivity.this.finish();
             }

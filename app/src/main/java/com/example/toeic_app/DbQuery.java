@@ -4,6 +4,11 @@ import android.util.ArrayMap;
 
 import androidx.annotation.NonNull;
 
+import com.example.toeic_app.Models.CategoryModel;
+import com.example.toeic_app.Models.ProfileModel;
+import com.example.toeic_app.Models.QuestionModel;
+import com.example.toeic_app.Models.RankModel;
+import com.example.toeic_app.Models.TestModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +36,8 @@ public class DbQuery {
 
     public static List<QuestionModel> g_quesList = new ArrayList<>(); // Khai báo list test
 
-    public static  ProfileModel myProfile = new ProfileModel("TLD", "null");
+    public static ProfileModel myProfile = new ProfileModel("TLD", "null");
+    public static RankModel myPerformance=new RankModel(0,-1); // Lấy xếp hạng của user
 
     // Khai báo 4 trạng thái
     public static final int NOT_VISITED = 0; // Chưa làm
@@ -81,7 +87,7 @@ public class DbQuery {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         myProfile.setName(documentSnapshot.getString("name"));
                         myProfile.setEmail(documentSnapshot.getString("email_id)"));
-
+                        myPerformance.setScore(documentSnapshot.getLong("total_score").intValue());
                         completeListener.onSuccess();
                     }
                 })
@@ -92,6 +98,38 @@ public class DbQuery {
                     }
                 });
 
+    }
+
+
+    // Lưu kết quả bài làm
+    public static void saveResult(int score, MyCompleteListener completeListener)
+    {
+        WriteBatch batch=g_firestore.batch();
+        DocumentReference userDoc=g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid());
+        batch.update(userDoc,"total_score",score);
+        if(score>g_testlist.get(g_selected_test_index).getTopScore())
+        {
+            DocumentReference scoreDoc=userDoc.collection("user_data").document("my_scores");
+            batch.update(scoreDoc, g_testlist.get(g_selected_test_index).getTestID(), score);
+
+        }
+        batch.commit()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if(score > g_testlist.get(g_selected_test_index).getTopScore()){
+                            g_testlist.get(g_selected_test_index).setTopScore(score);
+                        }
+                        myPerformance.setScore(score);
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
     }
 
     // Load tất cả các danh mục lên giao diện

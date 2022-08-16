@@ -1,4 +1,4 @@
-package com.example.toeic_app;
+package com.example.toeic_app.Adapters;
 
 import static com.example.toeic_app.DbQuery.ANSWERED;
 import static com.example.toeic_app.DbQuery.REVIEW;
@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.toeic_app.DbQuery;
+import com.example.toeic_app.Models.QuestionModel;
+import com.example.toeic_app.R;
 
 import java.util.List;
 
