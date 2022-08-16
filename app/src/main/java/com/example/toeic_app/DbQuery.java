@@ -33,6 +33,11 @@ public class DbQuery {
 
     public static  ProfileModel myProfile = new ProfileModel("TLD", "null");
 
+    // Khai báo 4 trạng thái
+    public static final int NOT_VISITED = 0; // Chưa làm
+    public static final int UNANSWERED = 1;
+    public static final int ANSWERED = 2;
+    public static final int REVIEW = 3;
 
     // Lư thông tin userData vào FireBase
     public static void createUserData(String email,String name, MyCompleteListener myCompleteListener){
@@ -167,8 +172,9 @@ public class DbQuery {
                                     doc.getString("B"),
                                     doc.getString("C"),
                                     doc.getString("D"),
-                                    doc.getLong("answer").intValue()
-                                    ,-1
+                                    doc.getLong("answer").intValue(),
+                                    -1,
+                                    NOT_VISITED
                             ));
                         }
                         myCompleteListener.onSuccess();

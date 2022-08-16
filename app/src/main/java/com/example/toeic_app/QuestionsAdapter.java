@@ -1,5 +1,9 @@
 package com.example.toeic_app;
 
+import static com.example.toeic_app.DbQuery.ANSWERED;
+import static com.example.toeic_app.DbQuery.REVIEW;
+import static com.example.toeic_app.DbQuery.UNANSWERED;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +111,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             {
                 btn.setBackgroundResource(R.drawable.selected_btn);
                 DbQuery.g_quesList.get(quesID).setSelectedAns(option_num);
-               // changeStatus(quesID, ANSWERED);
+                changeStatus(quesID, ANSWERED);
                 prevSelectedB = btn;
             }
             else
@@ -115,7 +119,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
                 if(prevSelectedB.getId() == btn.getId()){
                     btn.setBackgroundResource(R.drawable.unselected_btn);
                     DbQuery.g_quesList.get(quesID).setSelectedAns(-1);
-                   // changeStatus(quesID, UNANSWERED);
+                    changeStatus(quesID, UNANSWERED);
                     prevSelectedB = null;
                 }
                 else
@@ -123,7 +127,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
                     prevSelectedB.setBackgroundResource(R.drawable.unselected_btn);
                     btn.setBackgroundResource(R.drawable.selected_btn);
                     DbQuery.g_quesList.get(quesID).setSelectedAns(option_num);
-                   // changeStatus(quesID, ANSWERED);
+                    changeStatus(quesID, ANSWERED);
                     prevSelectedB = btn;
                 }
             }
@@ -138,6 +142,16 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             else
             {
                 btn.setBackgroundResource(R.drawable.unselected_btn);
+            }
+        }
+
+
+        // Thay đổi trạng thái
+        private void changeStatus(int id, int status)
+        {
+            if(DbQuery.g_quesList.get(id).getStatus() !=  REVIEW)
+            {
+                DbQuery.g_quesList.get(id).setStatus(status);
             }
         }
 

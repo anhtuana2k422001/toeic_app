@@ -1,5 +1,9 @@
 package com.example.toeic_app;
 
+import static com.example.toeic_app.DbQuery.ANSWERED;
+import static com.example.toeic_app.DbQuery.NOT_VISITED;
+import static com.example.toeic_app.DbQuery.REVIEW;
+import static com.example.toeic_app.DbQuery.UNANSWERED;
 import static com.example.toeic_app.DbQuery.g_catList;
 import static com.example.toeic_app.DbQuery.g_quesList;
 import static com.example.toeic_app.DbQuery.g_selected_cat_index;
@@ -20,6 +24,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,13 +41,15 @@ public class QuestionsActivity extends AppCompatActivity {
     QuestionsAdapter quesAdapter;
     private DrawerLayout drawer; // khái báo 1 layout Drawer
     private ImageButton drawerCloseB;
+    private GridView quesListGV;
+    private ImageView markImage;
+    private QuestionGridAdapter gridAdapter;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questions_list_layout);
-
         init();
 
         quesAdapter = new QuestionsAdapter(g_quesList);
@@ -51,8 +58,9 @@ public class QuestionsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         questionsView.setLayoutManager(layoutManager);
+        gridAdapter = new QuestionGridAdapter(this, g_quesList.size());
+        quesListGV.setAdapter(gridAdapter);
         setSnapHelper();
-
         quesID = 0;
         tvQuesID.setText("1/"+String.valueOf(g_quesList.size())); // Lấy ra số số lượng câu hỏi
         catNameTV.setText(g_catList.get(g_selected_cat_index).getName()); // Lấy ra tên danh mục luyện thi
@@ -61,6 +69,7 @@ public class QuestionsActivity extends AppCompatActivity {
         startTimer();
     }
 
+    @SuppressLint("SetTextI18n")
     private void init(){
         questionsView = findViewById(R.id.questions_view);
         tvQuesID = findViewById(R.id.tv_quesID);
@@ -73,8 +82,13 @@ public class QuestionsActivity extends AppCompatActivity {
         nextQuesB = findViewById(R.id.next_quesB);
         quesListB = findViewById(R.id.ques_list_gridB);
         drawer = findViewById(R.id.drawer_layout);
-
         drawerCloseB = findViewById(R.id.drawerCloseB);
+        markImage=findViewById(R.id.mark_image);
+        quesListGV = findViewById(R.id.ques_list_gv);
+        quesID = 0;
+        tvQuesID.setText("1/"+String.valueOf(g_quesList.size()));
+        catNameTV.setText(g_catList.get(g_selected_cat_index).getName());
+        g_quesList.get(0).setStatus(UNANSWERED);
     }
 
     private void setSnapHelper(){
@@ -87,8 +101,8 @@ public class QuestionsActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView,newState);
                 View view=snapHelper.findSnapView(recyclerView.getLayoutManager());
                 quesID = recyclerView.getLayoutManager().getPosition(view);
-//                if(g_quesList.get(quesID).getStatus()==NOT_VISITED)
-//                    g_quesList.get(quesID).setStatus(UNANSWERED);
+                if(g_quesList.get(quesID).getStatus() == NOT_VISITED)
+                    g_quesList.get(quesID).setStatus(UNANSWERED);
 
                 // Chuyển sang câu hỏi khác
                 tvQuesID.setText(String.valueOf(quesID+1)+ "/"+ String.valueOf(g_quesList.size()));
@@ -134,7 +148,7 @@ public class QuestionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(! drawer.isDrawerOpen(GravityCompat.END))
                 {
-                   //gridAdapter.notifyDataSetChanged();
+                   gridAdapter.notifyDataSetChanged();// thay đổi dữ liệu
                     drawer.openDrawer(GravityCompat.END);
                 }
             }
@@ -146,6 +160,30 @@ public class QuestionsActivity extends AppCompatActivity {
                 if(drawer.isDrawerOpen(GravityCompat.END))
                 {
                     drawer.closeDrawer(GravityCompat.END);
+                }
+            }
+        });
+
+        markB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(markImage.getVisibility()!=View.VISIBLE)
+                {
+                    markImage.setVisibility(View.VISIBLE);
+                    g_quesList.get(quesID).setStatus(REVIEW);
+
+                }
+                else
+                {
+                    markImage.setVisibility(View.GONE);
+                    if(g_quesList.get(quesID).getSelectedAns()!= -1)
+                    {
+                        g_quesList.get(quesID).setStatus(ANSWERED);
+                    }
+                    else
+                    {
+                        g_quesList.get(quesID).setStatus(UNANSWERED);
+                    }
                 }
             }
         });
@@ -174,6 +212,15 @@ public class QuestionsActivity extends AppCompatActivity {
             }
         };
         timer.start();
+    }
+
+    // Đi tới câu hỏi đó
+    public void goToQuestion(int position)
+    {
+        questionsView.smoothScrollToPosition(position);
+
+        if(drawer.isDrawerOpen(GravityCompat.END))
+            drawer.closeDrawer(GravityCompat.END);
     }
 
 }
