@@ -59,9 +59,22 @@ public class TestActivity extends AppCompatActivity {
         DbQuery.loadTestData(new MyCompleteListener() {
             @Override
             public void onSuccess() {
-                testAdapter = new TestAdapter(DbQuery.g_testlist);
-                testView.setAdapter(testAdapter);
-                progressDialog.dismiss();
+                DbQuery.loadMyScores(new MyCompleteListener() {
+                    @Override
+                    public void onSuccess() {
+                        testAdapter = new TestAdapter(DbQuery.g_testlist);
+                        testView.setAdapter(testAdapter);
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        progressDialog.dismiss();
+                        Toast.makeText(TestActivity.this, "Đã xảy ra sự cố. Vui lòng thử lại ! ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
             }
 
             @Override

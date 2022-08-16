@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 
@@ -100,17 +101,48 @@ public class DbQuery {
 
     }
 
+    public static void loadMyScores(MyCompleteListener completeListener){
+        g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid())
+                .collection("user_data").document("my_scores")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        for(int i = 0 ; i< g_testlist.size() ; i++){
+                            int top  = 0;
+                            if(documentSnapshot.get(g_testlist.get(i).getTestID()) != null){
+                                top = documentSnapshot.getLong(g_testlist.get(i).getTestID()).intValue();
+                            }
+
+                            g_testlist.get(i).setTopScore(top);// lấy điểm top
+                        }
+
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+    }
+
 
     // Lưu kết quả bài làm
     public static void saveResult(int score, MyCompleteListener completeListener)
     {
         WriteBatch batch=g_firestore.batch();
-        DocumentReference userDoc=g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid());
+        DocumentReference userDoc = g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid());
+
+
         batch.update(userDoc,"total_score",score);
         if(score>g_testlist.get(g_selected_test_index).getTopScore())
         {
             DocumentReference scoreDoc=userDoc.collection("user_data").document("my_scores");
-            batch.update(scoreDoc, g_testlist.get(g_selected_test_index).getTestID(), score);
+            Map<String, Object> testData = new ArrayMap<>();
+            testData.put(g_testlist.get(g_selected_test_index).getTestID(), score);
+            batch.set(scoreDoc, testData, SetOptions.merge());
 
         }
         batch.commit()
