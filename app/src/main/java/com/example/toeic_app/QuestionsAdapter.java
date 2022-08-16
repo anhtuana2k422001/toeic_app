@@ -40,7 +40,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
     public class ViewHoder extends RecyclerView.ViewHolder {
 
         private TextView ques;
-        private Button optionA, optionB, optionC,optionD;
+        private Button optionA, optionB, optionC,optionD, prevSelectedB;
         public ViewHoder(@NonNull View itemView) {
             super(itemView);
             ques = itemView.findViewById(R.id.tv_question);
@@ -48,15 +48,98 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             optionB = itemView.findViewById(R.id.optionB);
             optionC = itemView.findViewById(R.id.optionC);
             optionD = itemView.findViewById(R.id.optionD);
+            prevSelectedB = null; // gán bằng null
 
         }
 
-        private void setData(final int post){
-            ques.setText(questionList.get(post).getQuestion());
-            optionA.setText(questionList.get(post).getOptionA());
-            optionB.setText(questionList.get(post).getOptionB());
-            optionC.setText(questionList.get(post).getOptionC());
-            optionD.setText(questionList.get(post).getOptionD());
+        private void setData(final int pos){
+            ques.setText(questionList.get(pos).getQuestion());
+            optionA.setText(questionList.get(pos).getOptionA());
+            optionB.setText(questionList.get(pos).getOptionB());
+            optionC.setText(questionList.get(pos).getOptionC());
+
+            setOption(optionA, 1, pos);
+            setOption(optionB, 2, pos);
+            setOption(optionC, 3, pos);
+            setOption(optionD, 4, pos);
+
+            // Click vào đáp án A
+            optionA.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOption(optionA, 1, pos);
+                }
+            });
+
+
+            // Click vào đáp án A
+            optionB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOption(optionB, 2, pos);
+                }
+            });
+
+
+            // Click vào đáp án A
+            optionC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOption(optionC, 3, pos);
+                }
+            });
+
+            // Click vào đáp án A
+            optionD.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOption(optionD, 4, pos);
+                }
+            });
+
         }
+
+        // Chọn vào một đáp án
+        private void selectOption(Button btn, int option_num, int quesID)
+        {
+
+            if(prevSelectedB==null)
+            {
+                btn.setBackgroundResource(R.drawable.selected_btn);
+                DbQuery.g_quesList.get(quesID).setSelectedAns(option_num);
+               // changeStatus(quesID, ANSWERED);
+                prevSelectedB = btn;
+            }
+            else
+            {
+                if(prevSelectedB.getId() == btn.getId()){
+                    btn.setBackgroundResource(R.drawable.unselected_btn);
+                    DbQuery.g_quesList.get(quesID).setSelectedAns(-1);
+                   // changeStatus(quesID, UNANSWERED);
+                    prevSelectedB = null;
+                }
+                else
+                {
+                    prevSelectedB.setBackgroundResource(R.drawable.unselected_btn);
+                    btn.setBackgroundResource(R.drawable.selected_btn);
+                    DbQuery.g_quesList.get(quesID).setSelectedAns(option_num);
+                   // changeStatus(quesID, ANSWERED);
+                    prevSelectedB = btn;
+                }
+            }
+        }
+
+        private void setOption(Button btn, int option_num, int quesID)
+        {
+            if(DbQuery.g_quesList.get(quesID).getSelectedAns() == option_num)
+            {
+                btn.setBackgroundResource(R.drawable.selected_btn);
+            }
+            else
+            {
+                btn.setBackgroundResource(R.drawable.unselected_btn);
+            }
+        }
+
     }
 }

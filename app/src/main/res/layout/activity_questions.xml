@@ -40,7 +40,8 @@
             android:textColor="@color/green"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -85,7 +86,7 @@
             android:id="@+id/ques_list_gridB"
             android:layout_weight="1"
             android:src="@drawable/ic_right_menu"
-            />
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <LinearLayout

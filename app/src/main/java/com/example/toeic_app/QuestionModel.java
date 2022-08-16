@@ -7,14 +7,28 @@ public class QuestionModel {
     private String optionC;
     private String optionD;
     private int correctAns; // chỉ mục đáp án đúng
+    private int selectedAns; // Chọn đáp án của người dùng
+    private int status; // Trạng thái
+    public int getStatus() { // lấy trạng thái
+        return status;
+    }
 
-    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, int correctAns) {
+    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, int correctAns, int selectedAns) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctAns = correctAns;
+        this.selectedAns = selectedAns;
+    }
+
+    public int getSelectedAns() {
+        return selectedAns;
+    }
+
+    public void setSelectedAns(int selectedAns) {
+        this.selectedAns = selectedAns;
     }
 
     public String getQuestion() {

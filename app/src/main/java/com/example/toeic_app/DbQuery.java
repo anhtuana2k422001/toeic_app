@@ -150,7 +150,6 @@ public class DbQuery {
                 });
     }
 
-
     // Lấy thông tin câu hỏi
     public static void LoadQuestions(MyCompleteListener myCompleteListener){
         g_quesList.clear();
@@ -169,6 +168,7 @@ public class DbQuery {
                                     doc.getString("C"),
                                     doc.getString("D"),
                                     doc.getLong("answer").intValue()
+                                    ,-1
                             ));
                         }
                         myCompleteListener.onSuccess();
