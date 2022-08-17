@@ -57,7 +57,6 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             optionC = itemView.findViewById(R.id.optionC);
             optionD = itemView.findViewById(R.id.optionD);
             prevSelectedB = null; // gán bằng null
-
         }
 
         private void setData(final int pos){
@@ -65,6 +64,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.View
             optionA.setText(questionList.get(pos).getOptionA());
             optionB.setText(questionList.get(pos).getOptionB());
             optionC.setText(questionList.get(pos).getOptionC());
+            optionD.setText(questionList.get(pos).getOptionD());
 
             setOption(optionA, 1, pos);
             setOption(optionB, 2, pos);
