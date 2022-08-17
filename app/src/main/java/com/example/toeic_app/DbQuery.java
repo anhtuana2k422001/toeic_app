@@ -37,7 +37,7 @@ public class DbQuery {
 
     public static List<QuestionModel> g_quesList = new ArrayList<>(); // Khai báo list test
 
-    public static ProfileModel myProfile = new ProfileModel("TLD", "null");
+    public static ProfileModel myProfile = new ProfileModel("TLD", null, null);
     public static RankModel myPerformance=new RankModel(0,-1); // Lấy xếp hạng của user
 
     // Khai báo 4 trạng thái
@@ -79,6 +79,32 @@ public class DbQuery {
                 });
     }
 
+    //Lưu thông tin cá nhân -- cập nhật
+    public static void saveProfileData(String name, String phone, MyCompleteListener completeListener)
+    {
+        Map<String, Object> profileData = new ArrayMap<>();
+        profileData.put("name",name);
+        if(phone != null)
+            profileData.put("phone",phone);
+        g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid())
+                .update(profileData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        myProfile.setName(name);
+                        if(phone != null)
+                            myProfile.setPhone(phone);
+                        completeListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completeListener.onFailure();
+                    }
+                });
+    }
+
     // Lấy thông tin user
     public static void getUserData(final  MyCompleteListener completeListener){
         g_firestore.collection("users").document(FirebaseAuth.getInstance().getUid())
@@ -86,8 +112,15 @@ public class DbQuery {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
                         myProfile.setName(documentSnapshot.getString("name"));
-                        myProfile.setEmail(documentSnapshot.getString("email_id)"));
+                        myProfile.setEmail(documentSnapshot.getString("email_id"));
+
+                        // người dùng có số điện thoại thì lấy lên
+                        if(documentSnapshot.getString("phone") != null)
+                            myProfile.setPhone(documentSnapshot.getString("phone"));
+
+                        // Lấy tổng điêm
                         myPerformance.setScore(documentSnapshot.getLong("total_score").intValue());
                         completeListener.onSuccess();
                     }
@@ -248,9 +281,7 @@ public class DbQuery {
                             ));
                         }
                         myCompleteListener.onSuccess();
-
                     }
-
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
